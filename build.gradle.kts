@@ -32,7 +32,6 @@ korge {
 
 	gameCategory = GameCategory.PUZZLE
 	fullscreen = true
-	entryPoint = "main"
 // To enable all targets at once
 
 	//targetAll()
