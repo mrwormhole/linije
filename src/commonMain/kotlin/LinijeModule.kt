@@ -4,7 +4,7 @@ import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.SizeInt
 
 object LinijeModule : Module() {
-    override val mainScene = IntroScene::class
+    override val mainScene = GameplayScene::class
     override val title = "Linije"
     override val bgcolor = Colors["#641398"]
     override val icon = null
