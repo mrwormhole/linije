@@ -6,6 +6,7 @@ import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 
 class Board(virtualWidth: Int,
+            divideWidthBy: Int,
             leftIndent: Double,
             topIndent: Double,
             rows: Int,
@@ -22,23 +23,17 @@ class Board(virtualWidth: Int,
     private val rowCellCount: Int
     private val columnCellCount: Int
 
-    private var boardColor: RGBA
     private var cells: Array<Array<Cell>> = emptyArray()
-    private var cellBorderColor: RGBA
-    private var cellBorderThickness: Double = 2.0
-    private var cellColor: RGBA
-    private var cellIndent: Double
 
     init {
-        this.cellSize = virtualWidth / 15.0 // TODO could this 15 become a variable we can utilize?
-        this.boardSize =  (cellSize * 15.0 + virtualWidth % 15) - 100
+        this.cellSize = virtualWidth / divideWidthBy.toDouble()
+        this.boardSize =  (cellSize * divideWidthBy.toDouble() + virtualWidth % divideWidthBy) - 100
         this.leftIndent = leftIndent
         this.topIndent = topIndent
-        this.boardColor = color
         this.rowCellCount = rows
         this.columnCellCount = columns
 
-        drawableBoard = RoundRect(boardSize, boardSize, rx, ry, Colors.WHITE)
+        drawableBoard = RoundRect(boardSize, boardSize, rx, ry, color)
             .apply {
                 position(leftIndent, topIndent)
                 name = "Board"
@@ -51,18 +46,14 @@ class Board(virtualWidth: Int,
                     color = Colors.RED)
             }
         }
-        cellBorderColor = Colors.PINK
-        cellColor = Colors.TRANSPARENT_WHITE
+    }
 
-
-        cellIndent =  (boardSize - ((cellSize) * columnCellCount)) /
+    fun makeCells(cellColor: RGBA = Colors.PINK, cellBorderColor: RGBA = Colors.TRANSPARENT_WHITE, cellBorderThickness: Double = 2.0) {
+        val cellIndent =  (boardSize - ((cellSize) * columnCellCount)) /
                 (columnCellCount + 1)
 
         println("cell Indent is $cellIndent, cell Size is $cellSize, board Size is $boardSize")
-        makeCells()
-    }
 
-    fun makeCells() {
         for (i in 0 until rowCellCount) {
             for(j in 0 until columnCellCount) {
                 val leftCellIndent = leftIndent + cellIndent * (j + 1)

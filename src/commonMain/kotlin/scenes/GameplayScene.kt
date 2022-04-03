@@ -8,8 +8,9 @@ class GameplayScene() : Scene() {
         val leftIndent = 50.0
         val topIndent = 150.0
 
-        val board = Board(views.virtualWidth, leftIndent, topIndent, 8, 9, Colors.WHITE)
+        val board = Board(views.virtualWidth, 15, leftIndent, topIndent, 8, 9, Colors.WHITE)
         addChild(board.getDrawableBoard())
+        board.makeCells()
         for (rowCells in board.getDrawableCells()) {
             addChildren(rowCells.toList())
         }
