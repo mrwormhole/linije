@@ -1,21 +1,16 @@
 package core
 
-import com.soywiz.korge.input.onClick
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 
 class Cell(size: Double = 64.0,
-           i: Int,
-           j: Int,
-           leftIndent: Double,
-           topIndent: Double,
-           color: RGBA = Colors.TRANSPARENT_WHITE,
-           borderColor: RGBA = Colors.BLACK,
+           color: RGBA = Colors.PINK,
+           borderColor: RGBA = Colors.TRANSPARENT_WHITE,
            borderThickness: Double = 2.0
 ) {
-    private val text: Text
-    private val cell: RoundRect
+    val text: Text
+    val drawable: RoundRect
     private val size: Double
     private val rx: Double = 5.0
     private val ry: Double = 1.0
@@ -29,26 +24,7 @@ class Cell(size: Double = 64.0,
         this.borderColor = borderColor
         this.borderThickness = borderThickness
 
-        cell = RoundRect(size, size, rx, ry,
-            color, borderColor, borderThickness).apply {
-                name = "Cell ${i}${j}"
-                x = size * j + leftIndent
-                y = size * i + topIndent
-
-                onClick {
-                    this.color = Colors.GREEN
-                    println("Clicked on $name")
-                }
-            }
-
+        drawable = RoundRect(size, size, rx, ry, color, borderColor, borderThickness)
         text = Text("X", 48.0, Colors.WHITE, AssetLoader.font)
-    }
-
-    fun getDrawableCell(): RoundRect {
-        return cell
-    }
-
-    fun getText(): Text {
-        return text
     }
 }

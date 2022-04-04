@@ -1,7 +1,6 @@
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.centerOn
-import com.soywiz.korge.view.centerOnStage
 import com.soywiz.korim.color.Colors
 import core.Board
 
@@ -11,7 +10,7 @@ class GameplayScene() : Scene() {
         val topIndent = 150.0
 
         val board = Board(views.virtualWidth, 15, leftIndent, topIndent, 8, 9, Colors.WHITE)
-        addChild(board.getDrawableBoard())
+        addChild(board.drawable)
         board.makeCells()
         val (cells, texts) = board.getDrawableCells()
 
@@ -23,6 +22,12 @@ class GameplayScene() : Scene() {
                 addChild(text)
                 text.centerOn(cel)
             }
+        }
+
+        board.makeIndicators()
+        val indicators = board.getDrawableIndicators()
+        for (indicatorsRow in indicators) {
+            addChildren(indicatorsRow.toList())
         }
     }
 }

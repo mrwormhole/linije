@@ -1,5 +1,7 @@
 package core
 
+import com.soywiz.korge.input.onClick
+import com.soywiz.korge.view.Circle
 import com.soywiz.korge.view.RoundRect
 import com.soywiz.korge.view.Text
 import com.soywiz.korge.view.position
@@ -14,7 +16,7 @@ class Board(virtualWidth: Int,
             columns: Int,
             color: RGBA
 ) {
-    private val drawableBoard: RoundRect
+    val drawable: RoundRect
     private val cellSize: Double
     private val boardSize: Double
     private val rx: Double = 5.0
@@ -25,6 +27,7 @@ class Board(virtualWidth: Int,
     private val columnCellCount: Int
 
     private var cells: Array<Array<Cell>> = emptyArray()
+    private var indicators: Array<Array<Indicator>> = emptyArray()
 
     init {
         this.cellSize = virtualWidth / divideWidthBy.toDouble()
@@ -34,7 +37,7 @@ class Board(virtualWidth: Int,
         this.rowCellCount = rows
         this.columnCellCount = columns
 
-        drawableBoard = RoundRect(boardSize, boardSize, rx, ry, color)
+        drawable = RoundRect(boardSize, boardSize, rx, ry, color)
             .apply {
                 position(leftIndent, topIndent)
                 name = "Board"
@@ -42,14 +45,18 @@ class Board(virtualWidth: Int,
 
         cells = Array(rowCellCount) {
             Array(columnCellCount) {
-                Cell(i=0, j=0,
-                    leftIndent = 0.0, topIndent = 0.0,
-                    color = Colors.RED)
+                Cell()
+            }
+        }
+
+        indicators = Array(rowCellCount + 1) {
+            Array(columnCellCount + 1) {
+                Indicator()
             }
         }
     }
 
-    fun makeCells(cellColor: RGBA = Colors.PINK, cellBorderColor: RGBA = Colors.TRANSPARENT_WHITE, cellBorderThickness: Double = 2.0) {
+    fun makeCells(color: RGBA = Colors.PINK, borderColor: RGBA = Colors.TRANSPARENT_WHITE, borderThickness: Double = 2.0) {
         val cellIndent =  (boardSize - ((cellSize) * columnCellCount)) /
                 (columnCellCount + 1)
 
@@ -60,15 +67,38 @@ class Board(virtualWidth: Int,
                 val leftCellIndent = leftIndent + cellIndent * (j + 1)
                 val topCellIndent = topIndent + cellIndent * (i + 1)
 
-                cells[i][j] = Cell(cellSize, i, j,
-                    leftCellIndent, topCellIndent,
-                    cellColor, cellBorderColor, cellBorderThickness)
+                cells[i][j] = Cell(cellSize, color, borderColor, borderThickness).apply {
+                    drawable.name = "Cell ${i}${j}"
+                    drawable.x = cellSize * j + leftCellIndent
+                    drawable.y = cellSize * i + topCellIndent
+
+                    drawable.onClick {
+                        drawable.color = Colors.GREEN
+                        println("Clicked on $drawable.name")
+                    }
+                }
             }
         }
     }
 
-    fun getDrawableBoard() : RoundRect {
-        return drawableBoard
+    fun makeIndicators(color: RGBA = Colors.BLUE, borderColor: RGBA = Colors.TRANSPARENT_WHITE, borderThickness: Double = 2.0) {
+        val radius = cellSize / 2
+
+        val cellIndent =  (boardSize - ((cellSize) * columnCellCount)) /
+                (columnCellCount + 1)
+
+        for (i in 0..rowCellCount) {
+            for (j in 0..columnCellCount) {
+                val leftCellIndent = leftIndent + cellIndent * (j + 1)
+                val topCellIndent = topIndent + cellIndent * (i + 1)
+
+                indicators[i][j] = Indicator(radius, color, borderColor, borderThickness).apply {
+                    drawable.name = "Indicator ${i}${j}"
+                    drawable.x = radius * 2 * j + leftCellIndent
+                    drawable.y = radius * 2 * i + topCellIndent
+                }
+            }
+        }
     }
 
     fun getDrawableCells(): Pair<Array<Array<RoundRect>>, Array<Array<Text>>> {
@@ -85,15 +115,31 @@ class Board(virtualWidth: Int,
 
         for (i in 0 until rowCellCount) {
             for (j in 0 until columnCellCount) {
-                drawableCells[i][j] = cells[i][j].getDrawableCell()
+                drawableCells[i][j] = cells[i][j].drawable
             }
         }
         for (i in 0 until rowCellCount) {
             for (j in 0 until columnCellCount) {
-                drawableCellsText[i][j] = cells[i][j].getText()
+                drawableCellsText[i][j] = cells[i][j].text
             }
         }
 
-        return drawableCells to drawableCellsText
+        return Pair(drawableCells, drawableCellsText)
+    }
+
+    fun getDrawableIndicators(): Array<Array<Circle>> {
+        val drawableIndicators: Array<Array<Circle>> = Array(rowCellCount+1) {
+            Array(columnCellCount+1) {
+                Circle()
+            }
+        }
+
+        for (i in 0 .. rowCellCount) {
+            for (j in 0 .. columnCellCount) {
+                drawableIndicators[i][j] = indicators[i][j].drawable
+            }
+        }
+
+        return drawableIndicators
     }
 }
