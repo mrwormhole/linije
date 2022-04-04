@@ -1,6 +1,7 @@
 package core
 
 import com.soywiz.korge.view.RoundRect
+import com.soywiz.korge.view.Text
 import com.soywiz.korge.view.position
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
@@ -70,10 +71,15 @@ class Board(virtualWidth: Int,
         return drawableBoard
     }
 
-    fun getDrawableCells(): Array<Array<RoundRect>> {
+    fun getDrawableCells(): Pair<Array<Array<RoundRect>>, Array<Array<Text>>> {
         val drawableCells: Array<Array<RoundRect>> = Array(rowCellCount) {
             Array(columnCellCount) {
                 RoundRect(0.0,0.0,0.0,0.0)
+            }
+        }
+        val drawableCellsText: Array<Array<Text>> = Array(rowCellCount) {
+            Array(columnCellCount) {
+                Text("Hello")
             }
         }
 
@@ -82,6 +88,12 @@ class Board(virtualWidth: Int,
                 drawableCells[i][j] = cells[i][j].getDrawableCell()
             }
         }
-        return drawableCells
+        for (i in 0 until rowCellCount) {
+            for (j in 0 until columnCellCount) {
+                drawableCellsText[i][j] = cells[i][j].getText()
+            }
+        }
+
+        return drawableCells to drawableCellsText
     }
 }
