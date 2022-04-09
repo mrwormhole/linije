@@ -12,12 +12,11 @@ class GameplayScene() : Scene() {
         val board = Board(views.virtualWidth, 15, leftIndent, topIndent, 8, 9, Colors.WHITE)
         addChild(board.drawable)
         board.makeCells()
-        val (cells, texts) = board.getDrawableCells()
-
+        val (cells, cellsTexts) = board.getDrawableCells()
         for (i in cells.indices) {
             for (j in cells[i].indices) {
                 val cel = cells[i][j]
-                val text = texts[i][j]
+                val text = cellsTexts[i][j]
                 addChild(cel)
                 addChild(text)
                 text.centerOn(cel)
@@ -25,9 +24,15 @@ class GameplayScene() : Scene() {
         }
 
         board.makeIndicators()
-        val indicators = board.getDrawableIndicators()
-        for (indicatorsRow in indicators) {
-            addChildren(indicatorsRow.toList())
+        val (indicators, indicatorsTexts) = board.getDrawableIndicators()
+        for (i in indicators.indices) {
+            for (j in indicators[i].indices) {
+                val indicator = indicators[i][j]
+                val text = indicatorsTexts[i][j]
+                addChild(indicator)
+                addChild(text)
+                text.centerOn(indicator)
+            }
         }
     }
 }

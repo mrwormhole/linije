@@ -37,7 +37,8 @@ class Board(virtualWidth: Int,
         this.rowCellCount = rows
         this.columnCellCount = columns
 
-        drawable = RoundRect(boardSize, boardSize, rx, ry, color)
+        val r = boardSize / 10
+        drawable = RoundRect(r * 10, r * 9, rx, ry, color)
             .apply {
                 position(leftIndent, topIndent)
                 name = "Board"
@@ -94,8 +95,8 @@ class Board(virtualWidth: Int,
 
                 indicators[i][j] = Indicator(radius, color, borderColor, borderThickness).apply {
                     drawable.name = "Indicator ${i}${j}"
-                    drawable.x = radius * 2 * j + leftCellIndent
-                    drawable.y = radius * 2 * i + topCellIndent
+                    drawable.x = radius * 2 * j + leftCellIndent - 3 * cellSize / 4
+                    drawable.y = radius * 2 * i + topCellIndent - 3 * cellSize / 4
                 }
             }
         }
@@ -127,10 +128,15 @@ class Board(virtualWidth: Int,
         return Pair(drawableCells, drawableCellsText)
     }
 
-    fun getDrawableIndicators(): Array<Array<Circle>> {
+    fun getDrawableIndicators(): Pair<Array<Array<Circle>>, Array<Array<Text>>> {
         val drawableIndicators: Array<Array<Circle>> = Array(rowCellCount+1) {
             Array(columnCellCount+1) {
                 Circle()
+            }
+        }
+        val drawableIndicatorsText: Array<Array<Text>> = Array(rowCellCount+1) {
+            Array(columnCellCount+1) {
+                Text("Hello")
             }
         }
 
@@ -139,7 +145,12 @@ class Board(virtualWidth: Int,
                 drawableIndicators[i][j] = indicators[i][j].drawable
             }
         }
+        for (i in 0 .. rowCellCount) {
+            for (j in 0 .. columnCellCount) {
+                drawableIndicatorsText[i][j] = indicators[i][j].text
+            }
+        }
 
-        return drawableIndicators
+        return Pair(drawableIndicators, drawableIndicatorsText)
     }
 }
