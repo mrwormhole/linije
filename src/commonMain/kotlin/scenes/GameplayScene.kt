@@ -12,14 +12,14 @@ class GameplayScene() : Scene() {
         val board = Board(views.virtualWidth, 15, leftIndent, topIndent, 8, 9, Colors.WHITE)
         addChild(board.drawable)
         board.makeCells()
-        val (cells, cellsTexts) = board.getDrawableCells()
+        val (cells, cellsLines) = board.getDrawableCells()
         for (i in cells.indices) {
             for (j in cells[i].indices) {
                 val cel = cells[i][j]
-                val text = cellsTexts[i][j]
+                val line = cellsLines[i][j]
                 addChild(cel)
-                addChild(text)
-                text.centerOn(cel)
+                //addChild(line)
+                //line.centerOn(cel)
             }
         }
 

@@ -1,5 +1,6 @@
 package core
 
+import com.soywiz.korge.input.onClick
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
@@ -15,8 +16,8 @@ class Cell(size: Double = 64.0,
            borderColor: RGBA = Colors.TRANSPARENT_WHITE,
            borderThickness: Double = 2.0
 ) {
-    val text: Text
-    val drawable: RoundRect
+    val drawableRect: RoundRect
+    val drawableLine: Line
     private val size: Double
     private val rx: Double = 5.0
     private val ry: Double = 1.0
@@ -32,7 +33,19 @@ class Cell(size: Double = 64.0,
         this.borderThickness = borderThickness
         this.state = CellState.EMPTY
 
-        drawable = RoundRect(size, size, rx, ry, color, borderColor, borderThickness)
-        text = Text("X", 48.0, Colors.WHITE, AssetLoader.font)
+        drawableRect = RoundRect(size, size, rx, ry, color, borderColor, borderThickness)
+        drawableLine = Line(drawableRect.x, drawableRect.y, drawableRect.x + size, drawableRect.y + size, Colors.BLACK)
+
+        drawableRect.onClick {
+            changeStateOnClick()
+        }
+    }
+
+    fun changeStateOnClick() {
+        state = when (state){
+            CellState.EMPTY -> CellState.RIGHT_LINE_DRAWN
+            CellState.RIGHT_LINE_DRAWN -> CellState.LEFT_LINE_DRAWN
+            CellState.LEFT_LINE_DRAWN -> CellState.RIGHT_LINE_DRAWN
+        }
     }
 }

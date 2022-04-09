@@ -1,10 +1,7 @@
 package core
 
 import com.soywiz.korge.input.onClick
-import com.soywiz.korge.view.Circle
-import com.soywiz.korge.view.RoundRect
-import com.soywiz.korge.view.Text
-import com.soywiz.korge.view.position
+import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 
@@ -72,11 +69,6 @@ class Board(virtualWidth: Int,
                     drawable.name = "Cell ${i}${j}"
                     drawable.x = cellSize * j + leftCellIndent
                     drawable.y = cellSize * i + topCellIndent
-
-                    drawable.onClick {
-                        drawable.color = Colors.GREEN
-                        println("Clicked on $drawable.name")
-                    }
                 }
             }
         }
@@ -102,30 +94,25 @@ class Board(virtualWidth: Int,
         }
     }
 
-    fun getDrawableCells(): Pair<Array<Array<RoundRect>>, Array<Array<Text>>> {
+    fun getDrawableCells(): Pair<Array<Array<RoundRect>>, Array<Array<Line>>> {
         val drawableCells: Array<Array<RoundRect>> = Array(rowCellCount) {
             Array(columnCellCount) {
                 RoundRect(0.0,0.0,0.0,0.0)
             }
         }
-        val drawableCellsText: Array<Array<Text>> = Array(rowCellCount) {
+        val drawableCellsLines: Array<Array<Line>> = Array(rowCellCount) {
             Array(columnCellCount) {
-                Text("Hello")
+                Line(0.0, 0.0, 0.0, 0.0)
             }
         }
 
         for (i in 0 until rowCellCount) {
             for (j in 0 until columnCellCount) {
-                drawableCells[i][j] = cells[i][j].drawable
+                drawableCells[i][j] = cells[i][j].drawableRect
+                drawableCellsLines[i][j] = cells[i][j].drawableLine
             }
         }
-        for (i in 0 until rowCellCount) {
-            for (j in 0 until columnCellCount) {
-                drawableCellsText[i][j] = cells[i][j].text
-            }
-        }
-
-        return Pair(drawableCells, drawableCellsText)
+        return Pair(drawableCells, drawableCellsLines)
     }
 
     fun getDrawableIndicators(): Pair<Array<Array<Circle>>, Array<Array<Text>>> {
@@ -134,7 +121,7 @@ class Board(virtualWidth: Int,
                 Circle()
             }
         }
-        val drawableIndicatorsText: Array<Array<Text>> = Array(rowCellCount+1) {
+        val drawableIndicatorsTexts: Array<Array<Text>> = Array(rowCellCount+1) {
             Array(columnCellCount+1) {
                 Text("Hello")
             }
@@ -143,14 +130,9 @@ class Board(virtualWidth: Int,
         for (i in 0 .. rowCellCount) {
             for (j in 0 .. columnCellCount) {
                 drawableIndicators[i][j] = indicators[i][j].drawable
+                drawableIndicatorsTexts[i][j] = indicators[i][j].text
             }
         }
-        for (i in 0 .. rowCellCount) {
-            for (j in 0 .. columnCellCount) {
-                drawableIndicatorsText[i][j] = indicators[i][j].text
-            }
-        }
-
-        return Pair(drawableIndicators, drawableIndicatorsText)
+        return Pair(drawableIndicators, drawableIndicatorsTexts)
     }
 }
