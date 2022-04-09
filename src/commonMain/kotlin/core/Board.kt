@@ -69,6 +69,8 @@ class Board(virtualWidth: Int,
                     drawable.name = "Cell ${i}${j}"
                     drawable.x = cellSize * j + leftCellIndent
                     drawable.y = cellSize * i + topCellIndent
+
+                    createInnerLine()
                 }
             }
         }
@@ -108,8 +110,8 @@ class Board(virtualWidth: Int,
 
         for (i in 0 until rowCellCount) {
             for (j in 0 until columnCellCount) {
-                drawableCells[i][j] = cells[i][j].drawableRect
-                drawableCellsLines[i][j] = cells[i][j].drawableLine
+                drawableCells[i][j] = cells[i][j].drawable
+                drawableCellsLines[i][j] = cells[i][j].drawableInner
             }
         }
         return Pair(drawableCells, drawableCellsLines)
