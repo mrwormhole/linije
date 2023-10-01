@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://b4uldhlmelgyy"]
+
+[ext_resource type="Script" path="res://scripts/manager/game_manager.gd" id="2_ghbpo"]
+[ext_resource type="Script" path="res://scripts/manager/recycle_manager.gd" id="2_xo225"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_0u8qr"]
+b = Vector2(1200, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_403y1"]
+b = Vector2(0, 1200)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_lg0ri"]
+a = Vector2(1200, 0)
+b = Vector2(1200, 1200)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_umbfi"]
+a = Vector2(0, 1200)
+b = Vector2(1200, 1200)
+
+[node name="gameplay_window" type="Node2D"]
+
+[node name="game_manager" type="Node2D" parent="."]
+script = ExtResource("2_ghbpo")
+
+[node name="recycle_manager" type="Area2D" parent="."]
+script = ExtResource("2_xo225")
+
+[node name="up" type="CollisionShape2D" parent="recycle_manager"]
+shape = SubResource("SegmentShape2D_0u8qr")
+
+[node name="left" type="CollisionShape2D" parent="recycle_manager"]
+shape = SubResource("SegmentShape2D_403y1")
+
+[node name="right" type="CollisionShape2D" parent="recycle_manager"]
+shape = SubResource("SegmentShape2D_lg0ri")
+
+[node name="down" type="CollisionShape2D" parent="recycle_manager"]
+shape = SubResource("SegmentShape2D_umbfi")
+
+[connection signal="body_entered" from="recycle_manager" to="recycle_manager" method="_on_body_entered"]

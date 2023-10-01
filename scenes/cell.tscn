@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cwdh6ac2ha7x0"]
+
+[ext_resource type="Script" path="res://scripts/core/cell.gd" id="1_2uuuv"]
+[ext_resource type="Script" path="res://scripts/core/line.gd" id="2_cj0fl"]
+[ext_resource type="AudioStream" uid="uid://77wos2dr0r4n" path="res://audio/cell_click.wav" id="3_we46w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g57sl"]
+size = Vector2(32, 32)
+
+[node name="cell" type="Area2D" groups=["cells"]]
+script = ExtResource("1_2uuuv")
+
+[node name="line" type="Node2D" parent="."]
+scale = Vector2(1e-05, 1e-05)
+script = ExtResource("2_cj0fl")
+
+[node name="audio" type="AudioStreamPlayer" parent="line"]
+stream = ExtResource("3_we46w")
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g57sl")
+
+[connection signal="input_event" from="." to="line" method="_on_cell_input_event"]
