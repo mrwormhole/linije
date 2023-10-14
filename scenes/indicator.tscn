@@ -1,13 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://c000aaarmald2"]
+[gd_scene load_steps=5 format=3 uid="uid://c000aaarmald2"]
 
 [ext_resource type="Script" path="res://scripts/core/indicator.gd" id="1_hebug"]
 [ext_resource type="AudioStream" uid="uid://c3c8cgxkidcvx" path="res://audio/indicator_unlock.wav" id="2_ldyc7"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_em8a1"]
+friction = 0.01
+bounce = 0.5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_81pmb"]
 radius = 16.0
 
 [node name="indicator" type="RigidBody2D" groups=["indicators"]]
+physics_material_override = SubResource("PhysicsMaterial_em8a1")
 gravity_scale = 0.0
+sleeping = true
+can_sleep = false
 script = ExtResource("1_hebug")
 
 [node name="audio" type="AudioStreamPlayer" parent="."]

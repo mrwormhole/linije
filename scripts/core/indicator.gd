@@ -4,6 +4,8 @@ extends RigidBody2D
 const blue: Color = Color("#85C0F9")
 const orange: Color = Color("#F5793A")
 const interpolation_seconds: float = 0.6
+const impulse_min = 250
+const impulse_max = 500
 
 var id: String
 var size: float
@@ -29,14 +31,14 @@ func _ready() -> void:
 	unlocked_color = orange
 	set_unlock_value()
 	update_appearance()
-	
+
 func _draw() -> void:
 	draw_circle_arc(Vector2(0, 0), size/2, 0, 360, color)
-	
+
 func draw_circle_arc(center: Vector2, radius: float, angle_from: float, angle_to: float, color: Color) -> void:
 	const point_count: int = 500
 	var points_arc: PackedVector2Array = [center]
-	
+
 	for i in range(point_count + 1):
 		var angle_point = deg_to_rad(angle_from + i * (angle_to - angle_from) / point_count - 90)
 		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius)
@@ -44,7 +46,7 @@ func draw_circle_arc(center: Vector2, radius: float, angle_from: float, angle_to
 
 func is_unlocked() -> bool:
 	return current_value == unlock_value
-	
+
 func update_appearance() -> void:
 	label.text = str(unlock_value)
 	previous_state = current_state
@@ -56,7 +58,7 @@ func update_appearance() -> void:
 	else:
 		color = locked_color
 		current_state = States.LOCKED
-	
+
 	if previous_state != current_state:
 		queue_redraw()
 
@@ -87,7 +89,7 @@ func look_around_for_cells(cell_id: String) -> void:
 	if check_cell(cells[indicator_i + 1][indicator_j + 1], States.LEFT_LINE):
 		current_value += 1
 	update_appearance()
-	
+
 func check_cell(cell: Cell, wanted_state: int) -> bool:
 	return cell.current_state == wanted_state
 
@@ -107,7 +109,7 @@ func set_unlock_value() -> void:
 	if check_generated_cell(cells[i+1][j+1], States.LEFT_LINE):
 		new_unlock_value += 1
 	unlock_value = new_unlock_value
-	
+
 func check_generated_cell(cell: Cell, wanted_state: int) -> bool:
 	return cell.generated_state == wanted_state
 
@@ -124,20 +126,21 @@ func override_font_size(font_size: int) -> void:
 # disappear is where we play the animation to make it disappear
 func disappear() -> void:
 	var tween: Tween = get_tree().create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-	self.gravity_scale = 0.6
-		
-	var horizontal_impulse: int = randi_range(250,500)
-	var vertical_impulse: int = randi_range(250,500)
-	
+	self.gravity_scale = 1
+
+	var horizontal_impulse: int = randi_range(impulse_min, impulse_max)
+	var vertical_impulse: int = randi_range(impulse_min, impulse_max)
+
 	if randi() % 2:
 		horizontal_impulse = -horizontal_impulse
-	
+
 	if randi() % 2:
 		vertical_impulse = -vertical_impulse
-	
+		vertical_impulse += (impulse_min + impulse_max) / 2
+
 	var x = randi_range(-size/2, size/2)
 	var y = randi_range(-size/2, size/2)
-	
+
 	apply_impulse(Vector2(horizontal_impulse, vertical_impulse), Vector2(x, y).normalized())
 
 func _to_string() -> String:
