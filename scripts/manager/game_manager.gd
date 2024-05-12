@@ -36,6 +36,7 @@ func _process(delta: float) -> void:
 		previous_board.queue_free()
 		previous_board = null
 		stage += 1
+		Input.vibrate_handheld(500)
 
 		var board: Board = board_resource.instantiate()
 		add_child(board)
