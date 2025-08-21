@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cwdh6ac2ha7x0"]
 
-[ext_resource type="Script" path="res://scripts/core/cell.gd" id="1_2uuuv"]
-[ext_resource type="Script" path="res://scripts/core/line.gd" id="2_cj0fl"]
+[ext_resource type="Script" uid="uid://6ujh8otm0ry5" path="res://scripts/core/cell.gd" id="1_2uuuv"]
+[ext_resource type="Script" uid="uid://4o5ufidywusx" path="res://scripts/core/line.gd" id="2_cj0fl"]
 [ext_resource type="AudioStream" uid="uid://77wos2dr0r4n" path="res://audio/cell_click.wav" id="3_we46w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g57sl"]

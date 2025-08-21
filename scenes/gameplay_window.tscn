@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://b4uldhlmelgyy"]
 
-[ext_resource type="Script" path="res://scripts/manager/game_manager.gd" id="2_ghbpo"]
-[ext_resource type="Script" path="res://scripts/manager/recycle_manager.gd" id="2_xo225"]
+[ext_resource type="Script" uid="uid://cjlso5w2ye7n6" path="res://scripts/manager/game_manager.gd" id="2_ghbpo"]
+[ext_resource type="Script" uid="uid://cl3jbnrwqxhdi" path="res://scripts/manager/recycle_manager.gd" id="2_xo225"]
 [ext_resource type="AudioStream" uid="uid://c4t237baaklph" path="res://audio/tada-1.wav" id="2_yqrqk"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_0u8qr"]

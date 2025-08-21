@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c000aaarmald2"]
 
-[ext_resource type="Script" path="res://scripts/core/indicator.gd" id="1_hebug"]
+[ext_resource type="Script" uid="uid://bsu8rvt5cs1ex" path="res://scripts/core/indicator.gd" id="1_hebug"]
 [ext_resource type="AudioStream" uid="uid://c3c8cgxkidcvx" path="res://audio/indicator_unlock.wav" id="2_ldyc7"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_em8a1"]
