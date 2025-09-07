@@ -36,19 +36,6 @@ func generate() -> void:
 	get_tree().call_group("cells", "appear")
 	get_tree().call_group("indicators", "appear")
 
-	# so to figure out exact total moves, equation is simple,
-	# go for each square and understand each line
-	# each line can intersect with 2 indicators or 1 indicator
-
-	# if it is intersecting with 2 indicators, we need to substract its value from the total to disqualify duplicate values in our total
-	# if it is instersecting with 1 indicator, we keep total as it is
-
-	# algorithm can be re-written from scratch to find lines that only intersect with indicators
-	# then if it is intersecting, we can just add to the full total then we go to the next line
-	# the challenge here is understanding if line is colliding or not
-
-	# however if you don't wanna re-write the algorihm, you still need to understand which lines are colliding with indicators, code needs to change, I suppose algorithm re-write is necessary
-
 # pp_cells is used for debugging purposes
 func pp_cells() -> void:
 	print("-".repeat(40))
